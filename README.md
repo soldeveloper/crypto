@@ -34,7 +34,7 @@ Installation
 }
 ```
 
-* Run `composer update` in the protected folder of your app.
+* Run `composer update`.
 
 #### Install latest version from source code repository
 
