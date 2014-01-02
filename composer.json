@@ -1,0 +1,23 @@
+{
+	"name": "soldeveloper/crypto",
+	"type": "library",
+	"description": "Cryptography and digital signature.",
+	"keywords": ["soldeveloper", "crypto"],
+	"homepage": "https://github.com/soldeveloper/crypto",
+	"license": "LGPLv3",
+	"authors": [
+		{"name": "SolDeveloper", "email": "sol.developer@gmail.com"}
+	],
+	"require": {
+		"php": ">=5.4"
+	},
+	"autoload": {
+		"psr-0": {"Crypto": "src/"}
+	},
+	"extra": {
+		"branch-alias": {
+			"master": "0.1",
+			"0.1": "0.1"
+		}
+	}
+}
