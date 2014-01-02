@@ -40,6 +40,10 @@ Installation
 
 `git clone https://github.com/soldeveloper/crypto.git`
 
+### Requirements
+
+- **PHP** >= 5.4
+
 ### Usage
 
 * See [/example/sample.php](https://github.com/soldeveloper/crypto/blob/master/example/sample.php).
