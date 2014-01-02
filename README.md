@@ -36,10 +36,9 @@ Installation
 
 * Run `composer update` in the protected folder of your app.
 
-/*
 #### Install from source code repository
+
 `git clone https://github.com/soldeveloper/crypto.git`
-*/
 
 ### Usage
 
