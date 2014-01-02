@@ -42,4 +42,4 @@ Installation
 
 ### Usage
 
-* See `/example/sample.php`.
+* See [/example/sample.php](https://github.com/soldeveloper/crypto/blob/master/example/sample.php).
