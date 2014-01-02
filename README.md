@@ -6,7 +6,7 @@ Crypto module provides data encryption and digital signature, it may also be use
 Installation
 ------------
 
-#### Installing via Composer
+#### Installing version 0.1 via Composer
 
 * Get [Composer](http://getcomposer.org/)
 * Create file composer.json if absent:
@@ -21,7 +21,7 @@ Installation
 				"version": "0.1",
 				"source": {
 					"type": "git",
-					"url": "https://github.com/soldeveloper/crypto",
+					"url": "https://github.com/soldeveloper/crypto.git",
 					"reference": "0.1"
 				}
 			}
