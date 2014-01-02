@@ -13,7 +13,21 @@ Installation
 
 ```json
 {
-	"require":{
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "soldeveloper/crypto",
+				"version": "0.1",
+				"source": {
+					"type": "git",
+					"url": "https://github.com/soldeveloper/crypto",
+					"reference": "0.1"
+				}
+			}
+		}
+	],
+  	"require":{
 		"php": ">=5.4",
 		"soldeveloper/crypto": "0.1"
 	}
@@ -22,9 +36,10 @@ Installation
 
 * Run `composer update` in the protected folder of your app.
 
+/*
 #### Install from source code repository
-
 `git clone https://github.com/soldeveloper/crypto.git`
+*/
 
 ### Usage
 
