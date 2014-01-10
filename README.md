@@ -43,6 +43,7 @@ Installation
 ### Requirements
 
 - **PHP** >= 5.4
+- **OpenSSL** >= 0.9.6
 
 ### Usage
 
