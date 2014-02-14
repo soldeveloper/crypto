@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @category	SolDeveloper
+ * @category		SolDeveloper
  * @package		Crypto
  * @author		Sol Developer <sol.developer@gmail.com>
- * @copyright	Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
+ * @copyright		Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
  * @license		http://www.gnu.org/copyleft/lesser.html
  */
 
@@ -20,7 +20,7 @@ class Decode extends Properties
 	 * Returns the decoded information encrypted with a password.
 	 * In case of error throws exception.
 	 *
-	 * @param string	$data			Information
+	 * @param string	$data		Information
 	 * @param string	$password		Password
 	 *
 	 * @return string
@@ -46,8 +46,8 @@ class Decode extends Properties
 	 * Returns information encoded with the public key.
 	 * In case of error throws exception.
 	 *
-	 * @param array		$encryptedData	Encrypted password and data
-	 * @param string	$privateKey		The secret key
+	 * @param array		$encryptedData		Encrypted password and data
+	 * @param string		$privateKey		The secret key
 	 *
 	 * @return string
 	 *

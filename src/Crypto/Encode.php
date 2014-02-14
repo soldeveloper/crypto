@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @category	SolDeveloper
+ * @category		SolDeveloper
  * @package		Crypto
  * @author		Sol Developer <sol.developer@gmail.com>
- * @copyright	Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
+ * @copyright		Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
  * @license		http://www.gnu.org/copyleft/lesser.html
  */
 
@@ -20,7 +20,7 @@ class Encode extends Properties
 	 * Returns the encoded information with a password.
 	 * In case of error throws exception.
 	 *
-	 * @param string		$data			Information
+	 * @param string		$data		Information
 	 * @param string		$password		Password
 	 *
 	 * @return string

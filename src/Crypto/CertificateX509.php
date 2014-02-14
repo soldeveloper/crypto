@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @category	SolDeveloper
+ * @category		SolDeveloper
  * @package		Crypto
  * @author		Sol Developer <sol.developer@gmail.com>
- * @copyright	Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
+ * @copyright		Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
  * @license		http://www.gnu.org/copyleft/lesser.html
  */
 
@@ -20,10 +20,10 @@ class CertificateX509
 	 * Creates and returns a certificate X509.
 	 * In case of error throws exception.
 	 *
-	 * @param array			$subject		Subject
+	 * @param array		$subject			Subject
 	 * @param string		$privateKey		The secret key
 	 * @param int			$days			How many days the certificate is valid
-	 * @param string		$CACertificate	Signing certificate
+	 * @param string		$CACertificate		Signing certificate
 	 *
 	 * @return string
 	 *
@@ -48,7 +48,7 @@ class CertificateX509
 	 * Verifies the certificate.
 	 * Returns a check status.
 	 *
-	 * @param string	$certificate	Certificate
+	 * @param string	$certificate		Certificate
 	 * @param string	$privateKey		The secret key
 	 *
 	 * @return bool

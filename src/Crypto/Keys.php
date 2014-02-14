@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @category	SolDeveloper
+ * @category		SolDeveloper
  * @package		Crypto
  * @author		Sol Developer <sol.developer@gmail.com>
- * @copyright	Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
+ * @copyright		Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
  * @license		http://www.gnu.org/copyleft/lesser.html
  */
 
@@ -47,12 +47,13 @@ class Keys
 	 *
 	 * @param int		$keysType			Keys type
 	 * @param int		$privateKeyLen		The length of the private key
+	 * @param string	$passPhrase		The key is optionally protected by passphrase
 	 *
 	 * @return array
 	 *
 	 * @throws Exception
 	 */
-	public function create($keysType = self::KEYTYPE_RSA, $privateKeyLen = 512)
+	public function create($keysType = self::KEYTYPE_RSA, $privateKeyLen = 512, $passPhrase = null)
 	{
 		$config = array(
 			'digest_alg' => self::DIGEST_ALG_SHA512,
@@ -67,7 +68,7 @@ class Keys
 			throw new Exception('Unable to create keys.');
 		}
 
-		if (false === openssl_pkey_export($resource, $privateKey))
+		if (false === openssl_pkey_export($resource, $privateKey, $passPhrase))
 		{
 			throw new Exception('Unable to extract the private key from the resource.');
 		}

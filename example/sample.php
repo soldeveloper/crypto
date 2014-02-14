@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @category	SolDeveloper
+ * @category		SolDeveloper
  * @package		Crypto Sample
  * @author		Sol Developer <sol.developer@gmail.com>
- * @copyright	Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
+ * @copyright		Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
  * @license		http://www.gnu.org/copyleft/lesser.html
  */
 
@@ -106,6 +106,26 @@ try
 	echo PHP_EOL . str_repeat('=', 40) . ' Certificate Subject ' . str_repeat('=', 40);
 	echo PHP_EOL . var_export($certificateSubject, true);
 	echo PHP_EOL . str_repeat('=', 90);
+	echo PHP_EOL . PHP_EOL;
+
+	/**
+	 * Example of creating a file .PEM.
+	 */
+	echo PHP_EOL . str_repeat('=', 40) . ' Create server.pem file' . str_repeat('=', 40);
+	echo PHP_EOL;
+	$passphrase = 'SecretPassPhrase';
+	$keys = $cryptoKeys->create(CryptoKeys::KEYTYPE_RSA, 512, $passphrase);
+	$decodedPrivateKey = openssl_pkey_get_private($keys['private'], $passphrase);
+	$certificate = $cryptoCertificate->create(array(
+		'countryName' => 'UK',
+		'stateOrProvinceName' => 'Somerset',
+		'localityName' => 'Glastonbury',
+		'organizationName' => 'The Brain Room Limited',
+		'organizationalUnitName' => 'PHP Documentation Team',
+		'commonName' => 'Wez Furlong',
+		'emailAddress' => 'wez@example.com',
+	), $decodedPrivateKey, 365);
+	echo implode(array($certificate, $keys['private']));
 	echo PHP_EOL . PHP_EOL;
 }
 catch (CryptoException $exception)
