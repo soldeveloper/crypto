@@ -4,94 +4,241 @@
  * @category		SolDeveloper
  * @package		Crypto
  * @author		Sol Developer <sol.developer@gmail.com>
- * @copyright		Copyright (c) 2013 Sol Developer (https://github.com/soldeveloper/crypto)
+ * @copyright		Copyright (c) 2014 Sol Developer (https://github.com/soldeveloper/crypto)
  * @license		http://www.gnu.org/copyleft/lesser.html
  */
 
 namespace Crypto;
 
 /**
- * Class to work with a certificate X509.
+ * Сертификат.
  */
 class CertificateX509
 {
 
 	/**
-	 * Creates and returns a certificate X509.
-	 * In case of error throws exception.
+	 * Импорт сертификата из файла.
+	 */
+	const IMPORT_FROM_FILE = 1;
+
+	/**
+	 * Создание нового сертификата.
+	 */
+	const CREATE_NEW = 2;
+
+	/**
+	 * Импорт сертификата из параметров.
+	 */
+	const IMPORT_FROM_PARAMS = 3;
+
+	/**
+	 * Сертификат.
 	 *
-	 * @param array		$subject			Subject
-	 * @param string		$privateKey		The secret key
-	 * @param int			$days			How many days the certificate is valid
-	 * @param string		$CACertificate		Signing certificate
+	 * @var string
+	 */
+	private $certificate = null;
+
+	/**
+	 * Информация про сертификат.
 	 *
-	 * @return string
+	 * @var array
+	 */
+	private $information = null;
+
+	/**
+	 * Устанавливает входные значения.
+	 *
+	 * @param string		$certificate		Сертификат
+	 */
+	private function __construct($certificate)
+	{
+		$this
+			->setCertificate($certificate);
+	}
+
+	/**
+	 * Фабрика для создания сертификата.
+	 * В случае ошибки бросает исключение.
+	 *
+	 * @param int					$type				Способ создания сертификата
+	 * @param string|resource		$x509Certificate		Данные о сертификате
+	 *
+	 * @return CertificateX509
 	 *
 	 * @throws Exception
 	 */
-	public function create(array $subject, $privateKey, $days = 365, $CACertificate = null)
+	static public function factory($type, $x509Certificate)
 	{
-		$csr = openssl_csr_new($subject, $privateKey);
-		$x509Certificate = openssl_csr_sign($csr, $CACertificate, $privateKey, $days);
-		if (false === $x509Certificate)
+		switch ($type)
 		{
-			throw new Exception('An error occurred while creating the certificate.');
+			case self::IMPORT_FROM_FILE:
+				/**
+				 * Импорт сертификата из файла.
+				 */
+				$certificate = @file_get_contents($x509Certificate);
+				if (false === $certificate)
+				{
+					throw new Exception('Cannot read the certificate.');
+				}
+				break;
+			case self::CREATE_NEW:
+				/**
+				 * Создание нового сертификата.
+				 */
+			if (false === openssl_x509_export($x509Certificate, $certificate))
+				{
+					throw new Exception('Unable to get certificate.');
+				}
+				break;
+			case self::IMPORT_FROM_PARAMS:
+				/**
+				 * Импорт сертификата из параметра.
+				 */
+			$certificate = $x509Certificate;
+				break;
+			default:
+				throw new Exception('Unknown method create a certificate.');
+				break;
 		}
-		if (false === openssl_x509_export($x509Certificate, $certificate))
+		return new self($certificate);
+	}
+
+	/**
+	 * Экспорт сертификата в файл.
+	 * Возвращает размер записанной информации.
+	 * В случае ошибки бросает исключение.
+	 *
+	 * @param string		$pathToFile		Путь к файлу
+	 *
+	 * @return int
+	 *
+	 * @throws Exception
+	 */
+	public function exportToFile($pathToFile)
+	{
+		$length = @file_put_contents($pathToFile, $this->getCertificate());
+		if (false === $length)
 		{
-			throw new Exception('Unable to get certificate.');
+			throw new Exception('Error exporting certificate.');
 		}
-		return $certificate;
+		return $length;
 	}
 
 	/**
-	 * Verifies the certificate.
-	 * Returns a check status.
-	 *
-	 * @param string	$certificate		Certificate
-	 * @param string	$privateKey		The secret key
-	 *
-	 * @return bool
-	 */
-	public function verify($certificate, $privateKey)
-	{
-		return openssl_x509_check_private_key($certificate, $privateKey);
-	}
-
-	/**
-	 * Returns information about the issuer.
-	 *
-	 * @param string	$certificate	Certificate
-	 *
-	 * @return array
-	 */
-	public function getIssuer($certificate)
-	{
-		return openssl_x509_parse($certificate, false)['issuer'];
-	}
-
-	/**
-	 * Returns information about the subject.
-	 *
-	 * @param string	$certificate	Certificate
-	 *
-	 * @return array
-	 */
-	public function getSubject($certificate)
-	{
-		return openssl_x509_parse($certificate, false)['subject'];
-	}
-
-	/**
-	 * Returns the name of the certificate.
-	 *
-	 * @param string	$certificate	Certificate
+	 * Возвращает сертификат.
 	 *
 	 * @return string
 	 */
-	public function getName($certificate)
+	public function getCertificate()
 	{
-		return openssl_x509_parse($certificate, false)['name'];
+		return $this->certificate;
+	}
+
+	/**
+	 * Возвращает информацию о сертификате.
+	 *
+	 * @return array
+	 */
+	public function getInformation()
+	{
+		return $this->information;
+	}
+
+	/**
+	 * Устанавливает сертификат.
+	 * Возвращает текущий объект.
+	 *
+	 * @param string		$certificate		Сертификат
+	 *
+	 * @return self
+	 */
+	private function setCertificate($certificate)
+	{
+		$this->certificate = $certificate;
+		$this->information = openssl_x509_parse($this->getCertificate());
+		return $this;
+	}
+
+	/**
+	 * Возвращает идентификационные данные для субъекта сертификата.
+	 *
+	 * @return DistinguishedName
+	 */
+	public function getSubjectDistinguishedName()
+	{
+		$subject = $this->getInformation()['subject'];
+		return new DistinguishedName($subject);
+	}
+
+	/**
+	 * Возвращает идентификационные данные для эмитента сертификата.
+	 *
+	 * @return DistinguishedName
+	 */
+	public function getIssuerDistinguishedName()
+	{
+		$issuer = $this->getInformation()['issuer'];
+		return new DistinguishedName($issuer);
+	}
+
+	/**
+	 * Возвращает временную метку начала действия сертификата.
+	 *
+	 * @return int
+	 */
+	public function getValidFromTimeStamp()
+	{
+		return $this->getInformation()['validFrom_time_t'];
+	}
+
+	/**
+	 * Возвращает временную метку окончания действия сертификата.
+	 *
+	 * @return int
+	 */
+	public function getValidToTimeStamp()
+	{
+		return $this->getInformation()['validTo_time_t'];
+	}
+
+	/**
+	 * Возвращает номер сертификата.
+	 *
+	 * @return int
+	 */
+	public function getSerialNumber()
+	{
+		return $this->getInformation()['serialNumber'];
+	}
+
+	/**
+	 * Возвращает хеш для сертификата.
+	 *
+	 * @return string
+	 */
+	public function getHash()
+	{
+		return $this->getInformation()['hash'];
+	}
+
+	/**
+	 * Возвращает открытый ключ сертификата.
+	 *
+	 * @return string
+	 */
+	public function getPublicKey()
+	{
+		return openssl_pkey_get_details(openssl_pkey_get_public($this->getCertificate()))['key'];
+	}
+
+	/**
+	 * Возвращает сертификат.
+	 *
+	 * @return string|null
+	 */
+	public function __toString()
+	{
+		return $this->getCertificate();
 	}
 
 }
