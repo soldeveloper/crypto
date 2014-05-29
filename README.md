@@ -23,6 +23,9 @@ Installation
 					"type": "git",
 					"url": "https://github.com/soldeveloper/crypto.git",
 					"reference": "0.3"
+				},
+				"autoload": {
+					"psr-0": {"Crypto\\": "src/"}
 				}
 			}
 		}
